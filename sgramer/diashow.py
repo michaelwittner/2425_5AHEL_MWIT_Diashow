@@ -33,21 +33,24 @@ def slide_transition(image1_path, image2_path, duration=1.5, fps=60, max_width=1
 
     for i in range(num_frames + 1):
         alpha = i / num_frames  # Fortschritt von 0 bis 1
-        offset = int(alpha * width)  # Pixelverschiebung
+        offset = int(alpha * width)  # Pixelverschiebung für den Übergang
 
-        # Neue leere Leinwand erstellen
+        # Neue leere Leinwand in der gleichen Größe wie die Bilder erstellen
         frame = np.zeros((height, width, 3), dtype=np.uint8)
 
-        # Bereiche von img1 und img2 bestimmen
+        # Bildbereiche für die Bewegung bestimmen
         if offset < width:
+            # Rechter Teil des ersten Bildes wird nach links verschoben
             frame[:, :width - offset] = img1[:, offset:]
         if offset > 0:
+            # Linker Teil des zweiten Bildes wird eingeblendet
             frame[:, width - offset:] = img2[:, :offset]
 
-        # Bild anzeigen
+        # Aktuellen Frame anzeigen
         cv2.imshow('Diashow Übergang', frame)
 
-        if cv2.waitKey(18) & 0xFF == ord('q'):
+        # Wartezeit zwischen den Frames, um die Geschwindigkeit anzupassen
+        if cv2.waitKey(int(1000 / fps)) & 0xFF == ord('q'):
             break
 
     # Endbild anzeigen

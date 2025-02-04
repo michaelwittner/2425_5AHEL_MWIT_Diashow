@@ -8,6 +8,7 @@ Eine Diashow wird aus mehreren Bildern zusammengestellt werden.
 ### Video aus Bildern 
 Aus mehreren Bildern wird ein Video erstellt, wobei jedes Bild für eine bestimmte Zeit dargestellt wird.
 [Melikoglu]
+- TODO: Mit Klassen arbeiten
 
 ### Übergänge
 
