@@ -63,8 +63,8 @@ Eine Sound-Datei muss am Anfang bzw. am Ende gekürzt werden - wichitge Paramete
 * Länge der resultierenden Datei (in Sekunden)
 * Cut-Richtung (CUT-LEFT: Datei wird am Anfang beschnitten, CUT-RIGHT: Datei wird am Ende beschnitten)
 ### Wellenformdarstellung ...
-Darstellung der 
-![Waveform-Darstellung](/Pfad/zum/Bild.jpg)
+Darstellung der Wellenform einer Sounddatei - wichtig für die Bearbeitung von Sounddateien.
+![Waveform-Darstellung](img/waveform.png)
 ### FFT
 ### Überlappen von Audios
 ### Text <-> Speech [Prüller]
