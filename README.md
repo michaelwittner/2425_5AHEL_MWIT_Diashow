@@ -19,6 +19,28 @@ Aus mehreren Bildern wird ein Video erstellt, wobei jedes Bild für eine bestimm
 [Melikoglu]
 - TODO: Mit Klassen arbeiten
 
+### Video bearbeitung
+#### Zeitlich Zuschneiden [Klambauer]
+Wichtige Parameter:
+* Name des Originalvideos
+* Startzeitpunkt
+* Endzeitpunkt
+
+#### Zuschneiden (Crop)
+Wichtige Parameter:
+* Name des Originalvideos
+* Startpunkt (x,y)
+* Endpunkt (x,y)
+
+#### Resize
+Wichtige Parameter:
+* Name des Originalvideos
+* Größe des neuen Videos
+* Seitenverhältnis (16:9, 4:3, 1:1)
+
+
+
+
 ### Übergänge
 Wichtige Prameter für alle Übergänge:
 * Name des Originalbildes
