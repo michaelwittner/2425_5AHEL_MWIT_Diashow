@@ -13,3 +13,4 @@ https://github.com/BtbN/FFmpeg-Builds/releases
 * Pfad um H:\MWIT\ffmpeg\bin ergänzen
 
 ## 04.03.2025
+* Ersten 10 sekunden einer Audio-Datei abspielen (first_10_seconds.mp3)
