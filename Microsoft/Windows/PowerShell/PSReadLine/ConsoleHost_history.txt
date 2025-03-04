@@ -1,0 +1,2 @@
+python -m venv .\venv1
+python
