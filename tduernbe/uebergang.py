@@ -16,7 +16,9 @@ for i in range(frames + 1): #Schleife mit der Anzahl der Frames, sodass für jed
 
     cv2.imshow("Übergang", darkened) #Bild ausgeben/anzeigen
 
-    if cv2.waitKey(1) & 0xFF == ord('q'): #bei waitKey kann man die Wiederholungsrate in ms eintragen, hier 1, weil der Übergang schnell sein soll
+    if cv2.waitKey(5) & 0xFF == ord('q'): #bei waitKey kann man die Wiederholungsrate in ms eintragen, hier 1, weil der Übergang schnell sein soll
         break
 
+cv2.waitKey(0)  # Wartet unendlich, bis eine Taste gedrückt wird
 cv2.destroyAllWindows()
+
