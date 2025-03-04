@@ -1,50 +1,74 @@
-import math
+from PIL import Image
+import numpy as np
 import random
-import cv2
+import os
+import matplotlib.pyplot as plt
 
+# Bilder laden
+image1 = Image.open('foto.jpg')
+image2 = Image.open('foto2.jpg')
 
-image = cv2.imread('foto.JPG', cv2.IMREAD_UNCHANGED) # Bild laden
-height = 600
-width = 600
-image = cv2.resize(image, (width, height)) # width und height festlegen
-cv2.imshow('Originalbild', image)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+# Sicherstellen, dass beide Bilder die gleiche Größe haben
+image1 = image1.resize(image2.size)
 
-# Prüfen, ob das Bild einen Alpha-Kanal hat, wenn nicht, füge einen hinzu
-if image.shape[2] == 3:
-    # Alpha-Kanal hinzufügen
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2BGRA)
+# Konvertiere beide Bilder in RGBA (einschließlich Alpha-Kanal für Transparenz)
+image1 = image1.convert("RGBA")
+image2 = image2.convert("RGBA")
 
-auflösung = 10
-blockSize = math.ceil(width/auflösung),math.ceil(height/auflösung) # größe der einzelnen blöcke,
+# Bilder als NumPy Arrays umwandeln
+image1_array = np.array(image1)
+image2_array = np.array(image2)
 
-# Erstelle eine Liste mit allen möglichen Koordinaten (als Tupel)
-alle_koordinaten = [(x, y) for x in range(auflösung) for y in range(auflösung)]
+# Bildgröße
+height, width, _ = image1_array.shape
 
-# Liste der bereits ausgewählten Koordinaten
-ausgewaehlte_koordinaten = []
+# Anzahl der Bilder, die gespeichert werden sollen
+num_images = 10  # Anzahl der Bilder, die du speichern möchtest
 
-# Funktion, um eine zufällige Koordinate auszuwählen, die noch nicht ausgewählt wurde
-def zufaellige_koord():
-    # Stelle sicher, dass es noch unerwünschte Koordinaten gibt
-    if len(ausgewaehlte_koordinaten) < len(alle_koordinaten):
-        while True:
-            # Wähle zufällig eine Koordinate
-            koord = random.choice(alle_koordinaten)
-            if koord not in ausgewaehlte_koordinaten:
-                ausgewaehlte_koordinaten.append(koord)
-                return koord
-    else:
-        return None  # Alle Koordinaten wurden bereits ausgewählt
+# Berechne die Anzahl der benötigten Blöcke, um genau num_images Bilder zu speichern
+# Der Blockbereich ist ein Quadrat, also wird die Wurzel der Anzahl der Bilder genommen
+num_blocks_per_side = int(np.ceil(np.sqrt(num_images)))  # Berechnet die Seitenlänge des Blocks
 
-for i in range(auflösung*auflösung):
-    x,y = zufaellige_koord()
-    x=x*blockSize[0]
-    y=y*blockSize[1]
-    image[y:y + blockSize[1], x:x + blockSize[1], 3] = 0
+# Berechne die Blockgröße
+block_size = min(width, height) // num_blocks_per_side
 
-cv2.imshow('Bild', image)
-cv2.waitKey(0)
-cv2.imwrite('Bild.jpg', image)  #gif wird gebraucht
-cv2.destroyAllWindows()
+# Zufällige Reihenfolge der Blöcke generieren
+blocks = [(x, y) for x in range(0, width, block_size) for y in range(0, height, block_size)]
+random.shuffle(blocks)
+
+# Stellen sicher, dass die Liste nur die Anzahl der gewünschten Bilder enthält
+blocks = blocks[:num_images]
+
+# Ordner zum Speichern der Bilder erstellen (falls nicht bereits vorhanden)
+output_dir = 'output_images'
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
+
+# Übergangseffekt (die Blöcke werden nach und nach transparent)
+fig, ax = plt.subplots()
+
+# Iteriere über die Schritte und mache den Übergang
+for step_idx, (x, y) in enumerate(blocks):
+    # Kopiere das Bild 1 und setze den aktuellen Block transparent
+    img_with_alpha = np.copy(image1_array)
+
+    # Setze den Block transparent
+    img_with_alpha[y:y+block_size, x:x+block_size, 3] = 0  # Alpha-Kanal auf 0 setzen (transparent)
+
+    # Kombiniere das Bild mit dem transparenten Block und Bild 2
+    blended_image = np.copy(img_with_alpha)
+    # Kombiniere Bild 2, wo das Bild 1 transparent ist
+    mask = img_with_alpha[:, :, 3] == 0
+    blended_image[mask] = image2_array[mask]
+
+    # Speichere das Bild
+    output_path = os.path.join(output_dir, f'output_{step_idx:04d}.png')
+    Image.fromarray(blended_image).save(output_path)
+
+    # Optional: Zeige das Bild in der Matplotlib-Ansicht
+    ax.clear()
+    ax.imshow(blended_image)
+    ax.axis('off')
+    plt.pause(0.05)  # Kurze Pause zwischen den Bildern für flüssigere Animation
+
+plt.show()
