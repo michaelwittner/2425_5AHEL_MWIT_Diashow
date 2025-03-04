@@ -1,5 +1,5 @@
 import pyttsx3
-engine = pyttsx3.init([driverName: 'sapi5']) # object creation
+engine = pyttsx3.init('sapi5') # object creation  # object creation
 
 # RATE
 rate = engine.getProperty('rate')   # getting details of current speaking rate
