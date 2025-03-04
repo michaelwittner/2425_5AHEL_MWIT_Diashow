@@ -49,7 +49,7 @@ def slide_transition(image1_path, image2_path, duration=1.5, fps=60, max_width=1
         # Aktuellen Frame anzeigen
         cv2.imshow('Diashow Übergang', frame)
 
-        # Wartezeit zwischen den Frames, um die Geschwindigkeit anzupassen
+        # Wartezeit zwischen den Frames, zum Anpassen der Geschwindigkeit
         if cv2.waitKey(int(1000 / fps)) & 0xFF == ord('q'):
             break
 
