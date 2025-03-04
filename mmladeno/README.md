@@ -7,8 +7,9 @@
 ## 25.02.2025
 * Packages haben nicht funktioniert
 * pydub und die dazugehörigen Packages heruntergeladen (audioop, ffmpeg und pydub)
+
 https://github.com/BtbN/FFmpeg-Builds/releases
-Extrahiert in: H:\MWIT\ffmpeg\bin
-Pfad um H:\MWIT\ffmpeg\bin ergänzen
+* Extrahiert in: H:\MWIT\ffmpeg\bin 
+* Pfad um H:\MWIT\ffmpeg\bin ergänzen
 
 ## 04.03.2025
