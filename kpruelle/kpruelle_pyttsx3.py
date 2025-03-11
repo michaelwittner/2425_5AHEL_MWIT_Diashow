@@ -1,5 +1,5 @@
 import pyttsx3
-engine = pyttsx3.init('sapi5') # object creation  # object creation
+engine = pyttsx3.init() # object creation
 
 # RATE
 rate = engine.getProperty('rate')   # getting details of current speaking rate
@@ -13,12 +13,21 @@ engine.setProperty('volume',1.0)        # setting up volume level  between 0 and
 
 # VOICE
 voices = engine.getProperty('voices')       # getting details of current voice
-#engine.setProperty('voice', voices[0].id)  # changing index, changes voices. o for male
-engine.setProperty('voice', voices[1].id)   # changing index, changes voices. 1 for female
+for voice in voices:
+    print(f"ID: {voice.id}\nName: {voice.name}\n")
 
-engine.say("Hello World!")
-engine.say('My current speaking rate is ' + str(rate))
+# engine.setProperty('voice', voices[1].id)  # changing index, changes voices. 1 for female
+
+# Deutsche Stimme auswählen (nimm die ID der gewünschten deutschen Stimme)
+german_voice_id = 'HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Speech\\Voices\\Tokens\\TTS_MS_DE-DE_HEDDA_11.0'
+engine.setProperty('voice', german_voice_id)
+
+engine.say("Hallo Welt, das ist ein Test!")
 engine.runAndWait()
+
+#engine.say("Hello World!")
+#engine.say('My current speaking rate is ' + str(rate))
+#engine.runAndWait()
 engine.stop()
 
 # Saving Voice to a file
