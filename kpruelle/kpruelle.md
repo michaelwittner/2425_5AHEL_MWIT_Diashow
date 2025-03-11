@@ -29,6 +29,6 @@
 
     --> Es funktioniert jede Sprache, dessen Sprachpaket auf einem Rechner installiert ist
     
-    TODO: Sprache schön auswählen können ('Deutsch', nicht Sprachpasketname)
+    TODO: Sprache schön auswählen können ('Deutsch', nicht Sprachpaketname)
 
     TODO: Speech zu Text --> Wav-File --> Untertitel
