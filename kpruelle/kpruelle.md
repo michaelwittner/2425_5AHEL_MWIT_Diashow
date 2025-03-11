@@ -21,3 +21,10 @@
     --> hängt vermutlich mit dem Windwos Sprachmodell zusammen, Installation hat allerdings nicht funktioniert
 
     
+- 11.03.2025:
+ 
+    Testen von pyttsx3 auf Notepad (offline) --> hat funktioniert
+
+    Tesen der deutschen Sprache auf Notepad --> hat ebenfalls funktioniert
+
+    --> Es funktioniert jede Sprache, dessen Sprachpaket auf einem Rechner installiert ist
