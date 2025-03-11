@@ -7,4 +7,3 @@ Nicht da
 ##04.03.2025
 Installation von ffmpeg
 Implementierung von Crossfadung
-
