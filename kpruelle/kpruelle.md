@@ -28,3 +28,7 @@
     Tesen der deutschen Sprache auf Notepad --> hat ebenfalls funktioniert
 
     --> Es funktioniert jede Sprache, dessen Sprachpaket auf einem Rechner installiert ist
+    
+    TODO: Sprache schön auswählen können ('Deutsch', nicht Sprachpasketname)
+
+    TODO: Speech zu Text --> Wav-File --> Untertitel
