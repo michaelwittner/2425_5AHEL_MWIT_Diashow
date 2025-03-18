@@ -68,3 +68,13 @@ Fügt einen Ausblendeffekt zur MP3-Datei hinzu.
 - **Funktion:**
   Die Lautstärke wird allmählich von der aktuellen Lautstärke auf 0 reduziert.
 
+### `add_audio_to_video(video_name, audio_name, output_name)`
+Fügt eine Audiodatei zu einer Videodatei hinzu.
+
+- **Parameter:**
+  - `video_name` (str): Der Name der Videodatei.
+  - `audio_name` (str): Der Name der Audiodatei.
+  - `output_name` (str): Der Name der Ausgabevideodatei.
+
+- **Funktion:**
+  Kombiniert das Video mit dem Audio und speichert das Ergebnis als neue Videodatei unter dem angegebenen Namen.
