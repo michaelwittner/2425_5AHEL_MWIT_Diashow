@@ -1,4 +1,5 @@
 from pydub import AudioSegment
+import ffmpeg
 
 class AudioEngine:
     def __init__(self):
@@ -37,3 +38,13 @@ class AudioEngine:
     def fade_out(self, file_name, duration):
         song = AudioSegment.from_mp3(file_name)
         return song.fade_out(duration)
+
+
+    def add_audio_to_video(self, video_name, audio_name, output_name):
+        video_input = video_name
+        audio_input = audio_name
+        output_video = output_name
+
+        video = ffmpeg.input(video_input).video
+        audio = ffmpeg.input(audio_input).audio
+        ffmpeg.output(audio, video, output_video, vcodec='copy', acodec='copy').run()
