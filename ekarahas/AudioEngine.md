@@ -11,6 +11,7 @@ pip install pydub
 ```
 
 Zusätzlich wird `ffmpeg` benötigt, um MP3-Dateien zu verarbeiten. Installiere es entsprechend für dein Betriebssystem.
+Tutorial: https://www.youtube.com/watch?v=JR36oH35Fgg
 
 ## Klasseninitialisierung
 
