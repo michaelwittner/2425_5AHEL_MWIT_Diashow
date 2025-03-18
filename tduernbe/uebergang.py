@@ -4,6 +4,9 @@ import numpy as np  #cv2 und numpy importiert
 
 def uebergang(bild_pfad, ziel_ordner, zeit_uebergang, fps):
 
+    bildliste = []
+
+
     image = cv2.imread(bild_pfad) #Bild einlesen
     height, width, _ = image.shape  #Abmessungen auslesen
 
@@ -15,6 +18,9 @@ def uebergang(bild_pfad, ziel_ordner, zeit_uebergang, fps):
             # #https://docs.opencv.org/3.4/d5/dc4/tutorial_adding_images.html
 
         frame_name = ziel_ordner + "/blende_" + str(i + 1).zfill(3) + ".jpg"
-        cv2.imwrite(frame_name, darkened) # Datei speichern
+        if not cv2.imwrite(frame_name, darkened):  # Prüfen, ob das Speichern funktioniert
+            raise FileNotFoundError(f"Zielordner existiert nicht oder ist nicht beschreibbar.") # Datei speichern
 
+        bildliste.append(frame_name)  # Namen zur Liste hinzufügen
 
+    return bildliste
