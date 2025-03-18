@@ -15,11 +15,13 @@ def slide_transition(image1_path, image2_path, output_folder, duration=1.5, fps=
     height1, width1, _ = img1.shape
     height2, width2, _ = img2.shape
 
+    
     # Gemeinsame Größe festlegen (z. B. anhand des ersten Bildes)
     width = width1
     height = height1
     img2 = cv2.resize(img2, (width, height))
 
+    
     # Anzahl der Frames berechnen
     num_frames = int(duration * fps)
     frame_list = []  # Liste zum Speichern der Dateipfade und Anzeigedauer
