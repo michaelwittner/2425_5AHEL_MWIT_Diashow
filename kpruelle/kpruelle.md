@@ -32,3 +32,10 @@
     TODO: Sprache schön auswählen können ('Deutsch', nicht Sprachpaketname)
 
     TODO: Speech zu Text --> Wav-File --> Untertitel
+
+
+- 18.03.2025:
+ 
+    Speech to Text: vosk, (pyaudio)
+
+    Man muss folgendes Model herunterladen: https://alphacephei.com/vosk/models
