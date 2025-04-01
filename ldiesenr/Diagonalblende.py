@@ -2,7 +2,6 @@ import cv2
 import numpy as np
 import os
 
-
 def diagonal_blend(image1_path, image2_path, dst_dir, duration, fps, direction='tl'):
     """
     Erstellt eine Diagonalblenden-Animation zwischen zwei Bildern in einer bestimmten Richtung.
@@ -54,21 +53,29 @@ def diagonal_blend(image1_path, image2_path, dst_dir, duration, fps, direction='
         cv2.imwrite(filename, blended)
 
 
-# - `"tl"` = oben links → unten rechts (standard)
-# - `"tr"` = oben rechts → unten links
-# - `"bl"` = unten links → oben rechts
-# - `"br"` = unten rechts → oben links
+#- `"tl"` = oben links → unten rechts (standard)
+#- `"tr"` = oben rechts → unten links
+#- `"bl"` = unten links → oben rechts
+#- `"br"` = unten rechts → oben links
 diagonal_blend('bild1.png', 'bild2.png', 'output_images', duration=1, fps=80, direction='br')
+
+
+
+
+
+
+
+
 
 """
 def resize_images(input_dir, output_dir, size):
-
+    
     Skaliert alle Bilder in einem Verzeichnis auf eine vorgegebene Größe.
 
     :param input_dir: Pfad zum Eingabeverzeichnis mit Bildern
     :param output_dir: Pfad zum Ausgabeordner für die skalierten Bilder
     :param size: Zielgröße als Tuple (breite, höhe)
-
+    
     # Überprüfen, ob das Ausgabe-Verzeichnis existiert, falls nicht, erstellen
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
