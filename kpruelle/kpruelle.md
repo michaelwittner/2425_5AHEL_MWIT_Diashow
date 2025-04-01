@@ -39,3 +39,10 @@
     Speech to Text: vosk, (pyaudio)
 
     Man muss folgendes Model herunterladen: https://alphacephei.com/vosk/models
+
+
+- 01.04.2025:
+ 
+    Testen der Speech to Text Funktion mittels Online-Testfiles und eigener Aufnahmen
+
+    --> Bei eigenen Audiodateien (m4a-Dateiendung) müssen diese mittels Online-Converter (https://convertio.co/de/m4a-wav/) zu einer wav-Datei umgewandelt werden
