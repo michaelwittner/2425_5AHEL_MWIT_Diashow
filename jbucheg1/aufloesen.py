@@ -87,6 +87,5 @@ def pixelize(picture1, picture2, time, fps, output_dir):
 
 
 # Example usage
-list = pixelize(Image.open('foto.jpg'), Image.open('foto2.jpg'), 6, 10, 'output_images')
-
-print(list)
+#print("start")
+#list = pixelize(Image.open('..\\kmelikog\\Image_HAPPY.jpg'), Image.open('..\\kmelikog\\Imag
