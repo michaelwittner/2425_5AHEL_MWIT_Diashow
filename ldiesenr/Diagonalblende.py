@@ -3,78 +3,72 @@ import numpy as np
 import os
 
 
-def diagonal_blend(image1_path, image2_path, dst_dir, duration, fps):
+def diagonal_blend(image1_path, image2_path, dst_dir, duration, fps, direction='tl'):
     """
-    Erstellt eine Diagonalblenden-Animation zwischen zwei Bildern und speichert jedes Frame als Bilddatei.
-
+    Erstellt eine Diagonalblenden-Animation zwischen zwei Bildern in einer bestimmten Richtung.
     :param image1_path: Pfad zum ersten Bild
     :param image2_path: Pfad zum zweiten Bild
     :param dst_dir: Verzeichnis zum Speichern der resultierenden Bilder
     :param duration: Dauer der Animation in Sekunden
-    :param fps: Anzahl der Bilder pro Sekunde (Frames per Second)
+    :param fps: Anzahl der Bilder pro Sekunde
+    :param direction: Richtung der Blende ('tl', 'tr', 'bl', 'br')
     """
+
     # Bilder laden
     img1 = cv2.imread(image1_path)
     img2 = cv2.imread(image2_path)
 
-    # Überprüfen, ob beide Bilder erfolgreich geladen wurden
     if img1 is None or img2 is None:
         print("Fehler: Ein oder beide Bilder konnten nicht geladen werden.")
         return
 
-    # Bildgröße bestimmen
     height, width, _ = img1.shape
-
-    # Berechnung der Anzahl der Schritte basierend auf Dauer und FPS
     steps = int(duration * fps)
 
-    # Sicherstellen, dass das Zielverzeichnis existiert
     if not os.path.exists(dst_dir):
         os.makedirs(dst_dir)
 
-    # Generierung der Blendenbilder
     for i in range(steps + 1):
-        # Maske für die Diagonalblende erstellen
         mask = np.zeros((height, width), dtype=np.float32)
-        diag_position = int((i / steps) * (width + height))  # Position der Blende
+        diag_position = int((i / steps) * (width + height))
 
-        # Maske füllen: Setze Pixel innerhalb der Diagonalblende auf 1
         for y in range(height):
             for x in range(width):
-                if x + y < diag_position:
+                if direction == 'tl':  # oben links -> unten rechts
+                    condition = x + y < diag_position
+                elif direction == 'tr':  # oben rechts -> unten links
+                    condition = (width - x) + y < diag_position
+                elif direction == 'bl':  # unten links -> oben rechts
+                    condition = x + (height - y) < diag_position
+                elif direction == 'br':  # unten rechts -> oben links
+                    condition = (width - x) + (height - y) < diag_position
+                else:
+                    raise ValueError("Ungültige Richtung. Erlaubt sind: 'tl', 'tr', 'bl', 'br'.")
+
+                if condition:
                     mask[y, x] = 1.0
 
-        # Überblenden der beiden Bilder basierend auf der Maske
         blended = (img1 * (1 - mask[:, :, np.newaxis]) + img2 * (mask[:, :, np.newaxis])).astype(np.uint8)
 
-        # Generierten Frame speichern
         filename = os.path.join(dst_dir, f"Diagonalblende_{i:03d}.png")
         cv2.imwrite(filename, blended)
 
 
-# Beispielaufruf mit Speicherpfad
-diagonal_blend('bild1.png', 'bild2.png', 'output_images', duration=1, fps=60)
+# - `"tl"` = oben links → unten rechts (standard)
+# - `"tr"` = oben rechts → unten links
+# - `"bl"` = unten links → oben rechts
+# - `"br"` = unten rechts → oben links
+diagonal_blend('bild1.png', 'bild2.png', 'output_images', duration=1, fps=80, direction='br')
 
-
-
-
-
-
-
-
-
-
-
-
-
+"""
 def resize_images(input_dir, output_dir, size):
-    """
+
     Skaliert alle Bilder in einem Verzeichnis auf eine vorgegebene Größe.
 
     :param input_dir: Pfad zum Eingabeverzeichnis mit Bildern
     :param output_dir: Pfad zum Ausgabeordner für die skalierten Bilder
     :param size: Zielgröße als Tuple (breite, höhe)
-    """
+
     # Überprüfen, ob das Ausgabe-Verzeichnis existiert, falls nicht, erstellen
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -98,3 +92,4 @@ def resize_images(input_dir, output_dir, size):
 
 # Beispielaufruf
 resize_images('input_images', 'output_images', (800, 600))
+"""

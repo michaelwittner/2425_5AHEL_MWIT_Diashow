@@ -3,6 +3,13 @@ from PIL import Image
 import os
 import shutil
 
+from jbucheg1.aufloesen import pixelize
+from ldiesenr.Diagonalblende import diagonal_blend
+from sgramer.slide_transition import slide_transition
+
+# from ldiesenr.Diagonalblende import diagonal_blend
+# from sgramer.diashow import slide_transition
+
 """
 VideoGenerator Klasse
 description: Diese Klasse erstellt aus mehreren Bildern ein Video.
@@ -156,10 +163,15 @@ def __main__():
     # duernberger bild2 -> schwarz
 
 
+    diagonal_blend('Image_HAPPYnew.jpg', 'Image_OOOOnew.jpg', 'output_images1', duration=1, fps=30, direction='br')
+    slide_transition('Image_OOOOnew.jpg', 'Image_HAPPYnew.jpg', 'output_images2', duration=1, fps=30)
+    pixelize(Image.open('Image_HAPPYnew.jpg'), Image.open('Image_OOOOnew.jpg'), 3, 30, 'output_images3')
+    slide_transition('Image_HAPPYnew.jpg', 'Image_OOOOnew.jpg', 'output_images4')
+
     # VideoGenerator Objekt wird angelegt
     vg = VideoGenerator()
     #vg.generate_video_from_path("./proj", "output.mp4") # Generiere Video
-    vg.generate_video_from_path("./output_images", "duesen.mp4", fps=60) # Generiere Video
-
-if __name__ == "__main__":
-    __main__()
+    vg.generate_video_from_path("./output_images1", "guteProjekt1.mp4", fps=30) # Generiere Vi
+    vg.generate_video_from_path("./output_images2", "guteProjekt2.mp4", fps=30) # Generiere Vi
+    vg.generate_video_from_path("./output_images3", "guteProjekt3.mp4", fps=30) # Generiere Vi
+    vg.generate_video_from_path("./output_images4", "guteProjekt4.mp4", fps=30) # Generiere Vi
