@@ -1,15 +1,17 @@
 from pydub import AudioSegment
 from pydub.playback import play
 
-#opens the file
-song = AudioSegment.from_mp3("music.mp3")
+# Open the files
+song1 = AudioSegment.from_file(file="music.wav", format="wav")
+song2 = AudioSegment.from_file(file="music2.wav", format="wav")
 
-#adding 3 seconds fade in and 3 seconds fade out
-awesome = song.fade_in(3000).fade_out(3000)
+# crossfade duration
+crossfade_duration = 5000
 
-#playing the audio file directly in pycharm
-play(awesome)
+#adding fade in and fade out
+song1 = song1.fade_in(3000).fade_out(3000)
+song2 = song2.fade_in(3000).fade_out(3000)
 
-#exporting the audio file with the changes as mp3.
-awesome.export("mashup.mp3", format="mp3")
+crossfaded = song1.append(song2, crossfade=crossfade_duration)
 
+crossfaded.export("crossfade_output.wav", format="wav")

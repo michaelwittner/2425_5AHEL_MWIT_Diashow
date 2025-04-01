@@ -1,22 +1,26 @@
 import cv2
 import numpy as np  #cv2 und numpy importiert
 
-image = cv2.imread(r"H:\MWIT\foto.jpg") #Bild einlesen
-height, width, _ = image.shape  #Abmessungen auslesen
 
-frames = 30 #Anzahl der Frames, die bearbeitet werden
-fps = 60
+def uebergang(bild_pfad, ziel_ordner, zeit_uebergang, fps):
 
-for i in range(frames + 1): #Schleife mit der Anzahl der Frames, sodass für jeden Frame geschwärzt wird
+    bildliste = []
 
-    alpha = 1 - (i / frames) #Alphawert für addWeighted berechnet, siehe Tutorial
-    darkened = cv2.addWeighted(image, alpha, np.zeros_like(image), 0, 0) #Bild nach und nach schwärzen
 
-    #https://docs.opencv.org/3.4/d5/dc4/tutorial_adding_images.html
+    image = cv2.imread(bild_pfad) #Bild einlesen
+    height, width, _ = image.shape  #Abmessungen auslesen
 
-    cv2.imshow("Übergang", darkened) #Bild ausgeben/anzeigen
+    frames = int(fps * zeit_uebergang) # Frames berechnen weil Wittner sagt zeitübergang soll gewählt werden können
 
-    if cv2.waitKey(1) & 0xFF == ord('q'): #bei waitKey kann man die Wiederholungsrate in ms eintragen, hier 1, weil der Übergang schnell sein soll
-        break
+    for i in range(frames):
+        alpha = 1 - (i / frames)   #alphawert berechnen      https://stackoverflow.com/questions/1962795/how-to-get-alpha-value-of-a-png-image-with-pil
+        darkened = cv2.addWeighted(image, alpha, np.zeros_like(image), 0, 0)
+            # #https://docs.opencv.org/3.4/d5/dc4/tutorial_adding_images.html
 
-cv2.destroyAllWindows()
+        frame_name = ziel_ordner + "/blende_" + str(i + 1).zfill(3) + ".jpg"
+        if not cv2.imwrite(frame_name, darkened):  # Prüfen, ob das Speichern funktioniert
+            raise FileNotFoundError(f"Zielordner existiert nicht oder ist nicht beschreibbar.") # Datei speichern
+
+        bildliste.append(frame_name)  # Namen zur Liste hinzufügen
+
+    return bildliste
