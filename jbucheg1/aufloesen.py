@@ -1,50 +1,92 @@
-import math
+from PIL import Image
+import numpy as np
 import random
-import cv2
+import os
 
 
-image = cv2.imread('foto.JPG', cv2.IMREAD_UNCHANGED) # Bild laden
-height = 600
-width = 600
-image = cv2.resize(image, (width, height)) # width und height festlegen
-cv2.imshow('Originalbild', image)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+from PIL import Image
+import numpy as np
+import random
+import os
 
-# Prüfen, ob das Bild einen Alpha-Kanal hat, wenn nicht, füge einen hinzu
-if image.shape[2] == 3:
-    # Alpha-Kanal hinzufügen
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2BGRA)
 
-auflösung = 10
-blockSize = math.ceil(width/auflösung),math.ceil(height/auflösung) # größe der einzelnen blöcke,
+def pixelize(picture1, picture2, time, fps, output_dir):
+    """
+        Pixilize two images together one block at a time.
+        Images have to be time same size.
 
-# Erstelle eine Liste mit allen möglichen Koordinaten (als Tupel)
-alle_koordinaten = [(x, y) for x in range(auflösung) for y in range(auflösung)]
+        Parameters:
+        - picture1: The first image (PIL Image) to blend.
+        - picture2: The second image (PIL Image) to blend into.
+        - time: Duration of the blending in seconds.
+        - fps: Frames per second for the output.
+        - output_dir: Directory where to save the blended images.
+        """
 
-# Liste der bereits ausgewählten Koordinaten
-ausgewaehlte_koordinaten = []
+    # Convert both images to RGBA
+    image1 = picture1.convert("RGBA")
+    image2 = picture2.convert("RGBA")
 
-# Funktion, um eine zufällige Koordinate auszuwählen, die noch nicht ausgewählt wurde
-def zufaellige_koord():
-    # Stelle sicher, dass es noch unerwünschte Koordinaten gibt
-    if len(ausgewaehlte_koordinaten) < len(alle_koordinaten):
-        while True:
-            # Wähle zufällig eine Koordinate
-            koord = random.choice(alle_koordinaten)
-            if koord not in ausgewaehlte_koordinaten:
-                ausgewaehlte_koordinaten.append(koord)
-                return koord
-    else:
-        return None  # Alle Koordinaten wurden bereits ausgewählt
+    # Convert images to numpy arrays
+    image1_array = np.array(image1)
+    image2_array = np.array(image2)
 
-for i in range(auflösung*auflösung):
-    x,y = zufaellige_koord()
-    x=x*blockSize[0]
-    y=y*blockSize[1]
-    image[y:y + blockSize[1], x:x + blockSize[1], 3] = 0
+    # Get image dimensions
+    height, width, _ = image1_array.shape
 
-cv2.imshow('Bild', image)
-cv2.waitKey(0)
-cv2.imwrite('Bild.jpg', image)  #gif wird gebraucht
-cv2.destroyAllWindows()
+    # Number of total frames
+    num_images = int(time * fps)
+
+    # Define number of blocks per side based on total frames
+    num_blocks_per_side = int(np.sqrt(num_images) * 2)
+    block_size = min(width, height) // num_blocks_per_side
+
+    # Generate a shuffled list of block positions
+    blocks = [(x, y) for x in range(0, width, block_size) for y in range(0, height, block_size)]
+    random.shuffle(blocks)
+
+    # Ensure we have enough blocks for blending
+    total_blocks = len(blocks)
+    blocks_per_frame_progression = np.linspace(1, total_blocks, num_images, dtype=int)
+
+
+    # Create output directory if it doesn't exist
+    if not os.path.exists(output_dir):
+        os.makedirs(output_dir)
+
+    # Initialize the blended image (start fully with image1)
+    blended_image = np.copy(image1_array)
+
+    # List to save frame path and show duration
+    frame_list = []
+
+    # Blending images block by block for `num_images` frames
+    for step_idx in range(num_images):
+        blended_image_step = np.copy(blended_image)
+
+        # Determine how many blocks to blend in this frame
+        current_blocks_count = blocks_per_frame_progression[step_idx]
+
+        # Blend blocks up to this count
+        for i in range(current_blocks_count):
+            if i >= total_blocks:
+                break
+            x, y = blocks[i]
+
+            # Copy the block from image2
+            blended_image_step[y:y + block_size, x:x + block_size] = image2_array[y:y + block_size, x:x + block_size]
+
+        # Save the current blended image
+        output_path = os.path.join(output_dir, f'output_{step_idx:04d}.png')
+        Image.fromarray(blended_image_step).save(output_path)
+
+        # Update blended image for the next iteration
+        blended_image = np.copy(blended_image_step)
+        frame_list.append(f"{output_path}, {1}/{fps}")
+    return frame_list
+
+
+# Example usage
+list = pixelize(Image.open('foto.jpg'), Image.open('foto2.jpg'), 6, 10, 'output_images')
+
+print(list)
