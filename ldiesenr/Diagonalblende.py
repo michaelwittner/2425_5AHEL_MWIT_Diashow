@@ -51,9 +51,8 @@ def diagonal_blend(image1_path, image2_path, dst_dir, duration, fps):
         filename = os.path.join(dst_dir, f"Diagonalblende_{i:03d}.png")
         cv2.imwrite(filename, blended)
 
-
 # Beispielaufruf mit Speicherpfad
-diagonal_blend('bild1.png', 'bild2.png', 'output_images', duration=1, fps=60)
+diagonal_blend('bild1.png', 'bild2.png', 'output_images', duration=1, fps=80)
 
 
 
@@ -66,15 +65,15 @@ diagonal_blend('bild1.png', 'bild2.png', 'output_images', duration=1, fps=60)
 
 
 
-
+"""
 def resize_images(input_dir, output_dir, size):
-    """
+    
     Skaliert alle Bilder in einem Verzeichnis auf eine vorgegebene Größe.
 
     :param input_dir: Pfad zum Eingabeverzeichnis mit Bildern
     :param output_dir: Pfad zum Ausgabeordner für die skalierten Bilder
     :param size: Zielgröße als Tuple (breite, höhe)
-    """
+    
     # Überprüfen, ob das Ausgabe-Verzeichnis existiert, falls nicht, erstellen
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
@@ -98,3 +97,4 @@ def resize_images(input_dir, output_dir, size):
 
 # Beispielaufruf
 resize_images('input_images', 'output_images', (800, 600))
+"""
