@@ -57,6 +57,9 @@ def pixelize(picture1, picture2, time, fps, output_dir):
     # Initialize the blended image (start fully with image1)
     blended_image = np.copy(image1_array)
 
+    # List to save frame path and show duration
+    frame_list = []
+
     # Blending images block by block for `num_images` frames
     for step_idx in range(num_images):
         blended_image_step = np.copy(blended_image)
@@ -79,8 +82,11 @@ def pixelize(picture1, picture2, time, fps, output_dir):
 
         # Update blended image for the next iteration
         blended_image = np.copy(blended_image_step)
+        frame_list.append(f"{output_path}, {1}/{fps}")
+    return frame_list
 
 
 # Example usage
-pixelize(Image.open('foto.jpg'), Image.open('foto2.jpg'), 6, 10, 'output_images')
+list = pixelize(Image.open('foto.jpg'), Image.open('foto2.jpg'), 6, 10, 'output_images')
 
+print(list)
