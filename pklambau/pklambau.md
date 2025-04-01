@@ -12,3 +12,7 @@
 - Miniaturansicht (Thumbnail) wird nun gespeichert
 - Play-Button wird am Thumbnail angezeigt (noch nicht schön)
 - Program wurde in Funktionen umgewandelt
+
+### 01.04.2025
+- Play-Button wird nun schön am Thumbnail angezeigt
+- Funktion zum Extrahieren des letzten Frames aus einem Video wurde implementiert
